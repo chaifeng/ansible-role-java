@@ -1,0 +1,21 @@
+- name: Ensure JDK {{ java_version }}
+  unarchive: >
+    remote_src=Yes
+    src="{{ java_download_url }}"
+    dest="{{ java_home | dirname }}"
+    creates="{{ java_home }}/bin/java"
+
+- name: Fix JDK 8 Security Issue
+  lineinfile:
+    path: "{{ java_home }}/jre/lib/security/java.security"
+    regexp: "^securerandom.source="
+    line: "securerandom.source=file:/dev/urandom"
+    backup: "yes"
+  when: java_version | regex_search("^8")
+
+- name: Ensure Java Profile
+  copy:
+    dest: /etc/profile.d/java.sh
+    content: |
+      export JAVA_HOME="{{ java_home }}"
+      export PATH="$JAVA_HOME/bin:$PATH"

@@ -1,0 +1,13 @@
+install_dir: /opt
+
+java_version: 8u212
+
+java_files:
+  8u202: https://cdn.azul.com/zulu/bin/zulu8.36.0.1-ca-jdk8.0.202-linux_x64.tar.gz
+  8u192: https://cdn.azul.com/zulu/bin/zulu8.33.0.1-jdk8.0.192-linux_x64.tar.gz
+  8u212: https://cdn.azul.com/zulu/bin/zulu8.38.0.13-ca-jdk8.0.212-linux_x64.tar.gz
+  11.0.3: https://cdn.azul.com/zulu/bin/zulu11.31.11-ca-jdk11.0.3-linux_x64.tar.gz
+  12.0.1: https://cdn.azul.com/zulu/bin/zulu12.2.3-ca-jdk12.0.1-linux_x64.tar.gz
+
+java_download_url: "{{ java_files[java_version] }}"
+java_home: "{{ install_dir }}/{{ java_download_url | basename | regex_replace('\\.tar\\.gz$', '') }}"
