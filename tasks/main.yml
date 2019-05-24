@@ -13,9 +13,16 @@
     backup: "yes"
   when: java_version | regex_search("^8")
 
+- name: Ensure Java Environments
+  copy:
+    dest: /etc/default/java
+    content: |
+      JAVA_HOME="{{ java_home }}"
+
 - name: Ensure Java Profile
   copy:
     dest: /etc/profile.d/java.sh
     content: |
-      export JAVA_HOME="{{ java_home }}"
-      export PATH="$JAVA_HOME/bin:$PATH"
+      source /etc/default/java
+      export JAVA_HOME
+      PATH="$JAVA_HOME/bin:$PATH"
